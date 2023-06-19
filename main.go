@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"gomongo/routes"
 
 	"github.com/gin-gonic/gin"
@@ -16,6 +17,7 @@ type ProductModel struct {
 }
 
 func main() {
+	fmt.Println("Hello Wold")
 	r := gin.Default()
 	//allow origin
 	r.Use(func(c *gin.Context) {
