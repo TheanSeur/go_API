@@ -13,9 +13,8 @@ func ProductRoutes(route *gin.Engine, db *mongo.Database, client *mongo.Client) 
 		ProductModelImpl: models.NewProductModelImpl(db, client),
 	}
 	r := route.Group("/products")
-	r.GET("/", productControllerImpl.GetProduct)
+	r.POST("/all", productControllerImpl.GetProduct)
 	r.POST("/add", productControllerImpl.InstertProduct)
 	r.PUT("/:id", productControllerImpl.UpdateProduct)
 	r.DELETE("/:id", productControllerImpl.DeleteProduct)
-
 }

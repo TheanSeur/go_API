@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"gomongo/models"
 	"net/http"
 
@@ -76,12 +77,31 @@ func (p *ProductControllerImpl) InstertProduct(ctx *gin.Context) {
 	})
 }
 
+type ProductFilter struct {
+	Price float64 `json:"price"`
+}
+
 func (p *ProductControllerImpl) GetProduct(ctx *gin.Context) {
 	//get all products from mongodb with criteria (filter)
 	//all produts return from mongodb is a cursor ([element])
 	//delcare variable to retrieve that
-	result, err := p.ProductModelImpl.FindProducts()
+	//price
+	var filter = bson.M{}
+	var productFilter = ProductFilter{
+		Price: 0,
+	}
 
+	params := ctx.Param("filterPrice")
+
+	ctx.BindJSON(&productFilter)
+
+	if productFilter.Price > 0 {
+		filter["price"] = bson.M{
+			"$gte": params,
+		}
+	}
+	fmt.Printf("%v", filter)
+	result, err := p.ProductModelImpl.FindProducts(filter)
 	// pro, err := p.ProductModelImpl.FindProducts()
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, bson.M{

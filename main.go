@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"gomongo/routes"
 
 	"github.com/gin-gonic/gin"
@@ -17,7 +16,6 @@ type ProductModel struct {
 }
 
 func main() {
-	fmt.Println("Hello Wold")
 	r := gin.Default()
 	//allow origin
 	r.Use(func(c *gin.Context) {
@@ -35,6 +33,7 @@ func main() {
 	//all produts return from mongodb is a cursor ([element])
 	//delcare variable to retrieve that
 	routes.ProductRoutes(r, db, client)
+	routes.UserRoutes(r, db, client)
 	r.Run(":6969")
 
 }

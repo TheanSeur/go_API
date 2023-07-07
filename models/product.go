@@ -13,11 +13,6 @@ type ProductModel struct {
 	Price float64 `json:"price" bson:"price"`
 }
 
-type CreateProductModel struct {
-	Name  string  `json:"name" bson:"name"`
-	Price float64 `json:"price" bson:"price"`
-}
-
 type ProductModelImpl struct {
 	ProductCollection *mongo.Collection
 }
@@ -44,9 +39,9 @@ func (p *ProductModelImpl) DeleteProduct(id string, pro *ProductModel) (*mongo.D
 	return res, nil
 }
 
-func (p *ProductModelImpl) FindProducts() ([]ProductModel, error) {
+func (p *ProductModelImpl) FindProducts(filter bson.M) ([]ProductModel, error) {
 
-	cursor, err := p.ProductCollection.Find(context.Background(), bson.M{})
+	cursor, err := p.ProductCollection.Find(context.Background(), filter)
 	if err != nil {
 		return nil, err
 	}
